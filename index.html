@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Трекер домашних дел</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Домашние дела</h1>
+    <div class="sub">Организуй задачи по категориям, ставь дедлайны и отслеживай прогресс</div>
+
+    <!-- 🔧 Верхняя панель -->
+    <div class="top-controls">
+        <div class="data-controls">
+            <button class="data-btn export" id="exportBtn">📥 Экспорт</button>
+            <button class="data-btn import" id="importBtn">📤 Импорт</button>
+            <button class="data-btn notifications" id="notifBtn">🔔 <span id="notifStatus">Выкл</span></button>
+            <button class="data-btn theme" id="themeBtn">🌙 <span id="themeStatus">Светлая</span></button>
+            <button class="data-btn categories" id="categoriesBtn">🏷️ Категории</button>
+            <input type="file" id="importFileInput" accept=".json" style="display: none;">
+        </div>
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Поиск задач...">
+        </div>
+    </div>
+
+    <div class="add-task">
+        <input type="text" id="taskInput" placeholder="Что нужно сделать?" autocomplete="off">
+        <input type="date" id="deadlineInput" title="Дедлайн (необязательно)">
+        <select id="categoryInput" title="Категория">
+            <option value="">📌 Категория</option>
+        </select>
+        <button id="addBtn">➕ Добавить</button>
+    </div>
+
+    <div class="filter-bar" id="mainFilters">
+        <button class="filter-btn active" data-filter="all">📋 Все</button>
+        <button class="filter-btn" data-filter="active">🕒 Активные</button>
+        <button class="filter-btn" data-filter="completed">✅ Выполненные</button>
+    </div>
+
+    <div class="filter-bar" id="categoryFilters" style="border:none; padding-bottom:0; margin-bottom:1rem;"></div>
+
+    <div class="sort-bar">
+        <span class="sort-label">Сортировка:</span>
+        <select class="sort-select" id="sortSelect">
+            <option value="status-date">📊 По статусу и дате</option>
+            <option value="deadline">⏰ По дедлайну</option>
+            <option value="category">🏷️ По категории</option>
+            <option value="created">🆕 По дате создания</option>
+            <option value="alpha">🔤 По алфавиту</option>
+        </select>
+    </div>
+
+    <div class="progress-chart" id="progressChart">
+        <h3>📈 Прогресс за неделю</h3>
+        <div class="chart-bars" id="chartBars"></div>
+        <div class="chart-summary" id="chartSummary"></div>
+    </div>
+
+    <ul class="task-list" id="taskList"></ul>
+    <div class="stats" id="statsPanel"></div>
+</div>
+
+<!-- Модальное окно категорий -->
+<div class="modal-overlay" id="categoryModal">
+    <div class="modal">
+        <h2>
+            🏷️ Управление категориями
+            <button class="modal-close" id="modalCloseBtn">×</button>
+        </h2>
+        <div class="category-list" id="categoryList"></div>
+        <div class="modal-footer">
+            <button class="reset-btn" id="resetCategoriesBtn">🔄 Сброс к заводским настройкам</button>
+        </div>
+        <div class="emoji-picker-section">
+            <div class="emoji-picker-title">🎨 Выберите эмодзи для категории:</div>
+            <div class="emoji-categories" id="emojiCategories"></div>
+            <div class="emoji-grid" id="emojiGrid"></div>
+            <div class="emoji-preview" id="emojiPreview" style="display: none;">
+                <span class="emoji-preview-icon" id="previewIcon">📌</span>
+                <span>Выбрано: <strong id="previewEmoji">📌</strong></span>
+            </div>
+        </div>
+        <div class="add-category-form">
+            <input type="text" id="newCategoryName" placeholder="Название категории" maxlength="20">
+            <input type="text" id="newCategoryEmoji" placeholder="Эмодзи" maxlength="4" style="flex:0; width:60px;" readonly>
+            <input type="color" id="newCategoryColor" value="#e67e22" title="Цвет">
+            <button id="addCategoryBtn">➕ Добавить</button>
+        </div>
+    </div>
+</div>
+
+<div class="notification" id="notification"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
