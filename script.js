@@ -324,6 +324,11 @@ function getFilteredAndSortedTasks() {
 
 // ==================== RENDER ====================
 function render() {
+  const taskListEl = document.getElementById('taskList');
+  if (!taskListEl) {
+    console.error('taskList element missing!');
+    return;
+  }
   const filtered = getFilteredAndSortedTasks();
   const total = tasks.length;
   const completed = tasks.filter(t => t.completed).length;
