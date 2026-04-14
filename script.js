@@ -264,12 +264,10 @@ function renderProgressChart() {
   chartBarsEl.innerHTML = days.map(day => `<div class="chart-bar"><span class="chart-bar-value">${day.completed}</span><div class="chart-bar-fill" style="height:${Math.max((day.completed/maxComp)*80,4)}px"></div><span class="chart-bar-label">${day.name}<br>${day.date}</span></div>`).join('');
   const totalWeek = days.reduce((s,d)=>s+d.completed,0); const avg = (totalWeek/7).toFixed(1); const best = days.reduce((b,d)=>d.completed>b.completed?d:b, days[0]); chartSummaryEl.innerHTML = t('weekSummary', totalWeek, avg, best.name, best.completed);
 }
+
 function renderCalendar() {
   const container = document.getElementById('calendarContainer');
-  if (!container) {
-    console.warn('calendarContainer not found');
-    return;
-  }
+  if (!container) return;
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth();
@@ -297,7 +295,6 @@ function renderCalendar() {
   }
   html += `</div>`;
   container.innerHTML = html;
-
 }
 
 // ==================== FILTER & SORT ====================
