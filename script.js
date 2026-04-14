@@ -265,15 +265,39 @@ function renderProgressChart() {
   const totalWeek = days.reduce((s,d)=>s+d.completed,0); const avg = (totalWeek/7).toFixed(1); const best = days.reduce((b,d)=>d.completed>b.completed?d:b, days[0]); chartSummaryEl.innerHTML = t('weekSummary', totalWeek, avg, best.name, best.completed);
 }
 function renderCalendar() {
-  const now = new Date(); const year = now.getFullYear(); const month = now.getMonth(); const firstDay = new Date(year,month,1).getDay(); const daysInMonth = new Date(year,month+1,0).getDate(); const today = now.getDate();
-  const dayNames = currentLang==='ru' ? ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'] : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const monthNames = currentLang==='ru' ? ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'] : ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  let html = `<div style="text-align:center;margin-bottom:12px;font-weight:600;">${monthNames[month]} ${year}</div><div class="calendar-grid">`;
-  dayNames.forEach(d => html += `<div class="calendar-day-header">${d}</div>`);
-  for(let i=0;i<firstDay;i++) html += '<div></div>';
-  for(let d=1;d<=daysInMonth;d++) html += `<div class="calendar-day ${d===today?'active':''}">${d}</div>`;
-  html += '</div>';
-  $('calendarContainer').innerHTML = html;
+  const container = document.getElementById('calendarContainer');
+  if (!container) {
+    console.warn('calendarContainer not found');
+    return;
+  }
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const today = now.getDate();
+
+  const dayNames = currentLang === 'ru'
+    ? ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+    : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const monthNames = currentLang === 'ru'
+    ? ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+    : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  let html = `<div style="text-align:center;margin-bottom:12px;font-weight:600;">${monthNames[month]} ${year}</div>`;
+  html += `<div class="calendar-grid">`;
+  dayNames.forEach(day => html += `<div class="calendar-day-header">${day}</div>`);
+  
+  // Смещение для первого дня (0 - воскресенье, корректируем)
+  let startOffset = firstDay === 0 ? 6 : firstDay - 1;
+  for (let i = 0; i < startOffset; i++) html += `<div class="calendar-day"></div>`;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = (d === today && month === now.getMonth() && year === now.getFullYear());
+    html += `<div class="calendar-day ${isToday ? 'active' : ''}">${d}</div>`;
+  }
+  html += `</div>`;
+  container.innerHTML = html;
+
 }
 
 // ==================== FILTER & SORT ====================

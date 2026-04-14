@@ -614,3 +614,15 @@ body {
     .task-list { padding: 16px 20px; }
     .emoji-grid { grid-template-columns: repeat(6, 1fr); }
 }
+
+/* Прокрутка для списка задач */
+.task-list {
+    max-height: 35vh;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+/* Если нужно, чтобы весь контент скроллился */
+.content {
+    overflow-y: auto;
+}
