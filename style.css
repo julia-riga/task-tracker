@@ -39,20 +39,15 @@
     font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
-/* SVG иконки */
-.icon-inline {
+/* Эмодзи иконки */
+.emoji-icon {
     display: inline-block;
-    vertical-align: middle;
-    margin-right: 6px;
-    color: currentColor;
-}
-
-.data-btn .icon-inline {
-    margin-right: 6px;
-}
-
-.widget-header .icon-inline {
-    margin-right: 8px;
+    font-size: 1.3em;
+    line-height: 1;
+    margin-right: 4px;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", system-ui;
+    -webkit-user-select: none;
+    user-select: none;
 }
 body {
     background: var(--bg-gradient);
@@ -670,6 +665,7 @@ body {
     .nav-item { font-size: 0.8rem; padding: 8px 12px; }
     .sidebar-footer { width: 100%; padding: 8px; gap: 4px; }
     .data-btn { padding: 6px 10px; font-size: 0.75rem; }
+    .data-btn .emoji-icon { font-size: 1.1em; }
     .header { padding: 16px; gap: 12px; }
     .header-title h1 { font-size: 1.3rem; }
     .subtitle { font-size: 0.8rem; }
@@ -684,6 +680,8 @@ body {
         min-height: 260px;
         padding: 16px;
     }
+    .widget-header h3 { font-size: 1.1rem; }
+    .widget-header h3 .emoji-icon { font-size: 1.4em; }
     .calendar-day-header {
         font-size: 0.85rem;
         padding: 8px 4px;
@@ -701,6 +699,7 @@ body {
     }
     .modal-header { margin-bottom: 16px; }
     .modal-header h2 { font-size: 1.2rem; }
+    .modal-header h2 .emoji-icon { font-size: 1.3em; }
     .modal-close { width: 32px; height: 32px; font-size: 1.3rem; }
     
     .category-list { gap: 8px; margin-bottom: 16px; }
