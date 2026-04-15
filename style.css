@@ -38,6 +38,22 @@
     box-sizing: border-box;
     font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
+
+/* SVG иконки */
+.icon-inline {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+    color: currentColor;
+}
+
+.data-btn .icon-inline {
+    margin-right: 6px;
+}
+
+.widget-header .icon-inline {
+    margin-right: 8px;
+}
 body {
     background: var(--bg-gradient);
     min-height: 100vh;
