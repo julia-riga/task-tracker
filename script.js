@@ -9,6 +9,7 @@ let notificationsEnabled = localStorage.getItem('notificationsEnabled') === 'tru
 let currentTheme = localStorage.getItem('theme') || 'light';
 let selectedEmoji = '📌';
 let currentLang = localStorage.getItem('language') || 'ru';
+let calendarDate = new Date();
 
 const DEFAULT_CATEGORIES = {
   shopping: { emoji: '🛒', label: 'Покупки', color: '#2e7d32', isDefault: true },
@@ -278,32 +279,99 @@ function renderCalendar() {
   const container = document.getElementById('calendarContainer');
   if (!container) return;
   const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
+  const year = calendarDate.getFullYear();
+  const month = calendarDate.getMonth();
   const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const today = now.getDate();
+  const todayMonth = now.getMonth();
+  const todayYear = now.getFullYear();
 
   const dayNames = currentLang === 'ru'
     ? ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
     : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const monthNames = currentLang === 'ru'
-    ? ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
-    : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  
+  // Обновляем селекты месяца и года
+  const monthSelect = document.getElementById('monthSelect');
+  const yearSelect = document.getElementById('yearSelect');
+  if(monthSelect) monthSelect.value = month;
+  if(yearSelect) yearSelect.value = year;
 
-  let html = `<div style="text-align:center;margin-bottom:12px;font-weight:600;">${monthNames[month]} ${year}</div>`;
-  html += `<div class="calendar-grid">`;
+  let html = `<div class="calendar-grid">`;
   dayNames.forEach(day => html += `<div class="calendar-day-header">${day}</div>`);
   
   // Смещение для первого дня (0 - воскресенье, корректируем)
   let startOffset = firstDay === 0 ? 6 : firstDay - 1;
   for (let i = 0; i < startOffset; i++) html += `<div class="calendar-day"></div>`;
   for (let d = 1; d <= daysInMonth; d++) {
-    const isToday = (d === today && month === now.getMonth() && year === now.getFullYear());
-    html += `<div class="calendar-day ${isToday ? 'active' : ''}">${d}</div>`;
+    const isToday = (d === today && month === todayMonth && year === todayYear);
+    html += `<div class="calendar-day ${isToday ? 'active' : ''}" data-date="${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}">${d}</div>`;
   }
   html += `</div>`;
   container.innerHTML = html;
+  
+  // Добавляем обработчик клика по дням
+  container.querySelectorAll('.calendar-day[data-date]').forEach(day => {
+    day.style.cursor = 'pointer';
+    day.addEventListener('click', function() {
+      deadlineInput.value = this.dataset.date;
+      render();
+    });
+  });
+}
+
+function initCalendarSelects() {
+  const monthSelect = document.getElementById('monthSelect');
+  const yearSelect = document.getElementById('yearSelect');
+  
+  if(!monthSelect || !yearSelect) return;
+  
+  // Заполняем лист годов (текущий год ±10 лет)
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  yearSelect.innerHTML = '';
+  for (let y = currentYear - 10; y <= currentYear + 10; y++) {
+    const option = document.createElement('option');
+    option.value = y;
+    option.text = y;
+    yearSelect.appendChild(option);
+  }
+  
+  // Обновляем названия месяцев в зависимости от языка
+  const monthNames = currentLang === 'ru'
+    ? ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+    : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  
+  for (let i = 0; i < monthSelect.options.length; i++) {
+    monthSelect.options[i].text = monthNames[i];
+  }
+  
+  // Устанавливаем текущий месяц и год
+  monthSelect.value = calendarDate.getMonth();
+  yearSelect.value = calendarDate.getFullYear();
+  
+  // Обработчики изменения месяца и года
+  monthSelect.addEventListener('change', function() {
+    calendarDate.setMonth(parseInt(this.value));
+    renderCalendar();
+  });
+  
+  yearSelect.addEventListener('change', function() {
+    calendarDate.setFullYear(parseInt(this.value));
+    renderCalendar();
+  });
+}
+
+function prevMonth() {
+  calendarDate.setMonth(calendarDate.getMonth() - 1);
+  renderCalendar();
+  initCalendarSelects();
+}
+
+function nextMonth() {
+  calendarDate.setMonth(calendarDate.getMonth() + 1);
+  renderCalendar();
+  initCalendarSelects();
 }
 
 // ==================== FILTER & SORT ====================
@@ -428,7 +496,7 @@ function applyLanguage() {
   document.getElementById('statCompletedLabel').innerText = t('statCompletedLabel');
   document.getElementById('statActiveLabel').innerText = t('statActiveLabel');
   document.getElementById('statOverdueLabel').innerText = t('statOverdueLabel');
-  document.getElementById('calendarTitleText').innerText = t('calendarTitle');
+  document.getElementById('calendarTitle').innerHTML = `<span class="emoji-icon">📅</span> ${t('calendarTitle')}`;
   document.getElementById('taskInput').placeholder = t('addTaskPlaceholder');
   document.getElementById('addBtnText').innerText = t('addBtnText');
   document.getElementById('sortLabel').innerText = t('sortLabel');
@@ -446,6 +514,7 @@ function applyLanguage() {
   document.getElementById('notifStatus').innerText = notificationsEnabled ? t('notifStatusOn') : t('notifStatusOff');
   document.getElementById('langStatus').innerText = currentLang === 'ru' ? 'RU' : 'EN';
   renderCategorySelectors();
+  initCalendarSelects();
   render();
 }
 function toggleLanguage() { currentLang = currentLang === 'ru' ? 'en' : 'ru'; localStorage.setItem('language', currentLang); applyLanguage(); }
@@ -482,6 +551,7 @@ function init() {
   updateNotificationButton();
   initEventListeners();
   applyLanguage();
+  initCalendarSelects();
   render();
   setTimeout(() => { if(notificationsEnabled) checkOverdueTasks(); }, 500);
 }

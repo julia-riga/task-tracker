@@ -68,7 +68,27 @@
                 <div class="stat-item"><div class="stat-icon">⚠️</div><div class="stat-info"><div class="stat-value" id="overdueTasks">0</div><div class="stat-label" id="statOverdueLabel">Overdue</div></div></div>
             </div>
             <div class="widget calendar-widget">
-                <div class="widget-header"><h3 id="calendarTitle"><span class="emoji-icon">📅</span> <span id="calendarTitleText">Calendar</span></h3></div>
+                <div class="widget-header">
+                    <h3 id="calendarTitle"><span class="emoji-icon">📅</span> Calendar</h3>
+                </div>
+                <div class="calendar-nav">
+                    <select id="monthSelect" class="calendar-select">
+                        <option value="0">January</option>
+                        <option value="1">February</option>
+                        <option value="2">March</option>
+                        <option value="3">April</option>
+                        <option value="4">May</option>
+                        <option value="5">June</option>
+                        <option value="6">July</option>
+                        <option value="7">August</option>
+                        <option value="8">September</option>
+                        <option value="9">October</option>
+                        <option value="10">November</option>
+                        <option value="11">December</option>
+                    </select>
+                    <select id="yearSelect" class="calendar-select">
+                    </select>
+                </div>
                 <div id="calendarContainer"></div>
             </div>
         </div>
@@ -77,9 +97,13 @@
         <div class="add-task-container">
             <div class="add-task">
                 <input type="text" id="taskInput" placeholder="What needs to be done?">
-                <input type="date" id="deadlineInput">
-                <select id="categoryInput"><option value="">📌 Category</option></select>
+                <div class="deadline-wrapper">
+                    <span class="deadline-icon">📅</span>
+                    <input type="date" id="deadlineInput" placeholder="Deadline">
+                </div>
+                <select id="categoryInput"><option value="">🏷️ Category</option></select>
                 <button id="addBtn" class="add-btn">
+                    <span class="add-btn-emoji">✏️</span>
                     <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                     <span id="addBtnText">Add Task</span>
                 </button>

@@ -259,6 +259,38 @@ body {
     gap: 4px;
     text-align: center;
 }
+
+/* Навигация по календарю */
+.calendar-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 12px;
+}
+
+.calendar-select {
+    padding: 8px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.calendar-select:hover {
+    border-color: var(--accent-color);
+    background: rgba(0, 120, 212, 0.05);
+}
+
+.calendar-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
+}
 .calendar-day-header { font-size: 0.7rem; color: var(--text-muted); padding: 8px 4px; font-weight: 600; }
 .calendar-day {
     padding: 8px 4px;
@@ -299,6 +331,40 @@ body {
     cursor: pointer;
     outline: none;
 }
+
+/* Wrapper для дедлайна */
+.deadline-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    background: var(--card-bg);
+    flex: 1;
+    min-width: 160px;
+    transition: all 0.2s;
+}
+
+.deadline-wrapper:focus-within {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
+}
+
+.deadline-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.deadline-wrapper input[type="date"] {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 0;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    cursor: pointer;
+}
 .add-btn {
     display: flex;
     align-items: center;
@@ -320,6 +386,7 @@ body {
     box-shadow: 0 6px 16px rgba(0, 120, 212, 0.4);
 }
 .add-btn svg { width: 20px; height: 20px; stroke: white; fill: none; stroke-width: 2; }
+.add-btn-emoji { font-size: 1.2rem; line-height: 1; display: flex; align-items: center; }
 .filter-sort-bar {
     padding: 16px 32px;
     display: flex;
@@ -620,6 +687,7 @@ body {
 @media (max-width: 768px) {
     .add-task { flex-direction: column; }
     .add-task input[type="text"], .add-task input[type="date"], .add-task select, .add-btn { width: 100%; }
+    .deadline-wrapper { width: 100%; }
     .filter-sort-bar { flex-direction: column; align-items: flex-start; padding: 16px 20px; }
     .task-list { padding: 16px 20px; }
     .emoji-grid { grid-template-columns: repeat(6, 1fr); }
@@ -675,6 +743,17 @@ body {
     .add-task-container { padding: 0 16px 12px; }
     .add-task input, .add-task select, .add-btn { font-size: 0.9rem; padding: 10px 12px; }
     
+    /* Дедлайн на мобилках */
+    .deadline-wrapper {
+        padding: 12px 14px;
+        border: 1px solid var(--border-color);
+        background: var(--card-bg);
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+    .deadline-icon { font-size: 1.2rem; }
+    .deadline-wrapper input[type="date"] { font-size: 0.95rem; }
+    
     /* Календарь на очень маленьких экранах */
     .calendar-widget {
         min-height: 260px;
@@ -682,6 +761,17 @@ body {
     }
     .widget-header h3 { font-size: 1.1rem; }
     .widget-header h3 .emoji-icon { font-size: 1.4em; }
+    .calendar-nav {
+        margin-bottom: 12px;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .calendar-select {
+        flex: 1;
+        min-width: 80px;
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
     .calendar-day-header {
         font-size: 0.85rem;
         padding: 8px 4px;
