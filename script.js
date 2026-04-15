@@ -428,7 +428,7 @@ function applyLanguage() {
   document.getElementById('statCompletedLabel').innerText = t('statCompletedLabel');
   document.getElementById('statActiveLabel').innerText = t('statActiveLabel');
   document.getElementById('statOverdueLabel').innerText = t('statOverdueLabel');
-  document.getElementById('calendarTitle').innerText = t('calendarTitle');
+  document.getElementById('calendarTitleText').innerText = t('calendarTitle');
   document.getElementById('taskInput').placeholder = t('addTaskPlaceholder');
   document.getElementById('addBtnText').innerText = t('addBtnText');
   document.getElementById('sortLabel').innerText = t('sortLabel');
