@@ -33,6 +33,7 @@ EMOJI_COLLECTION.all = [...new Set(Object.values(EMOJI_COLLECTION).flat())];
 const translations = {
   ru: {
     appTitle: 'Home Tasks', navAll: 'Все задачи', navActive: 'Активные', navCompleted: 'Выполненные',
+    shoppingCat: 'Покупки', cleaningCat: 'Уборка', studyCat: 'Учёба', workCat: 'Работа', healthCat: 'Здоровье', otherCat: 'Другое',
     themeStatusLight: 'Светлая', themeStatusDark: 'Тёмная', notifStatusOn: 'Вкл', notifStatusOff: 'Выкл',
     mainTitle: 'Менеджер задач', subtitle: 'Организуйте домашние дела по категориям, ставьте дедлайны и отслеживайте прогресс',
     searchPlaceholder: 'Поиск задач...', categoriesBtn: 'Категории', exportBtn: 'Экспорт', importBtn: 'Импорт',
@@ -69,6 +70,7 @@ const translations = {
   },
   en: {
     appTitle: 'Home Tasks', navAll: 'All Tasks', navActive: 'Active', navCompleted: 'Completed',
+    shoppingCat: 'Shopping', cleaningCat: 'Cleaning', studyCat: 'Study', workCat: 'Work', healthCat: 'Health', otherCat: 'Other',
     themeStatusLight: 'Light', themeStatusDark: 'Dark', notifStatusOn: 'On', notifStatusOff: 'Off',
     mainTitle: 'Task Manager', subtitle: 'Organize your home tasks by category, set deadlines and track progress',
     searchPlaceholder: 'Search tasks...', categoriesBtn: 'Categories', exportBtn: 'Export', importBtn: 'Import',
@@ -106,6 +108,13 @@ const translations = {
 };
 
 function t(key, ...args) { let text = translations[currentLang][key]; return typeof text === 'function' ? text(...args) : text; }
+
+function getCategoryLabel(categoryKey) {
+  const c = categories[categoryKey];
+  if (!c) return '';
+  const categoryLabelKeys = { shopping: 'shoppingCat', cleaning: 'cleaningCat', study: 'studyCat', work: 'workCat', health: 'healthCat', other: 'otherCat' };
+  return categoryLabelKeys[categoryKey] ? t(categoryLabelKeys[categoryKey]) : c.label;
+}
 
 // ==================== DOM ELEMENTS ====================
 const $ = id => document.getElementById(id);
@@ -161,9 +170,9 @@ function saveCategories() { const custom = {}; Object.keys(categories).forEach(k
 function generateCategoryKey() { return 'custom_'+Date.now().toString(36); }
 function renderCategorySelectors() {
   categoryInput.innerHTML = `<option value="">${t('categorySelectPlaceholder')}</option>`;
-  Object.keys(categories).forEach(key => { const c = categories[key]; categoryInput.innerHTML += `<option value="${key}">${c.emoji} ${c.label}</option>`; });
+  Object.keys(categories).forEach(key => { const c = categories[key]; categoryInput.innerHTML += `<option value="${key}">${c.emoji} ${getCategoryLabel(key)}</option>`; });
   categoryFiltersEl.innerHTML = `<button class="filter-btn active" data-category="all">🏷️ ${t('navAll')}</button>`;
-  Object.keys(categories).forEach(key => { const c = categories[key]; const isActive = currentCategory === key ? 'active' : ''; categoryFiltersEl.innerHTML += `<button class="filter-btn ${isActive}" data-category="${key}">${c.emoji} ${c.label}</button>`; });
+  Object.keys(categories).forEach(key => { const c = categories[key]; const isActive = currentCategory === key ? 'active' : ''; categoryFiltersEl.innerHTML += `<button class="filter-btn ${isActive}" data-category="${key}">${c.emoji} ${getCategoryLabel(key)}</button>`; });
   document.querySelectorAll('#categoryFilters .filter-btn').forEach(btn => btn.addEventListener('click', () => setCategory(btn.dataset.category)));
 }
 function renderCategoryList() {
@@ -171,14 +180,14 @@ function renderCategoryList() {
   Object.keys(categories).forEach(key => {
     const c = categories[key];
     const taskCount = tasks.filter(t => t.category === key && !t.completed).length;
-    categoryListEl.innerHTML += `<div class="category-item"><div class="category-item-info"><span class="category-item-emoji">${c.emoji}</span><span class="category-item-name">${c.label}</span>${c.isDefault ? '<span class="default-badge">'+(currentLang==='ru'?'Базовая':'Default')+'</span>' : ''}<span class="category-item-count">(${taskCount} ${currentLang==='ru'?'активн.':'active'})</span></div><div class="category-item-actions"><button class="category-btn delete delete-category-btn" data-key="${key}">🗑️</button></div></div>`;
+    categoryListEl.innerHTML += `<div class="category-item"><div class="category-item-info"><span class="category-item-emoji">${c.emoji}</span><span class="category-item-name">${getCategoryLabel(key)}</span>${c.isDefault ? '<span class="default-badge">'+(currentLang==='ru'?'Базовая':'Default')+'</span>' : ''}<span class="category-item-count">(${taskCount} ${currentLang==='ru'?'активн.':'active'})</span></div><div class="category-item-actions"><button class="category-btn delete delete-category-btn" data-key="${key}">🗑️</button></div></div>`;
   });
 }
 function deleteCategory(key) {
   const cat = categories[key];
   if (!cat) return;
   const taskCount = tasks.filter(t => t.category === key).length;
-  if (!confirm(t('confirmDeleteCategory', cat.emoji, cat.label, taskCount))) return;
+  if (!confirm(t('confirmDeleteCategory', cat.emoji, getCategoryLabel(key), taskCount))) return;
   if (cat.isDefault && Object.values(categories).filter(c => c.isDefault).length <= 1) { showNotification(t('defaultCategoryWarning'), 'error'); return; }
   if (taskCount > 0) { tasks.forEach(t => { if (t.category === key) t.category = 'other'; }); saveTasksToStorage(); }
   if (currentCategory === key) { currentCategory = 'all'; updateCategoryFilterButtons(); }
@@ -359,7 +368,7 @@ function render() {
       }
       const catInfo = task.category ? categories[task.category] : null;
       const catClass = catInfo ? (catInfo.isDefault ? catInfo.label.toLowerCase() : 'custom') : 'other';
-      const catBadge = catInfo ? `<span class="category-badge ${catClass}">${catInfo.emoji} ${catInfo.label}</span>` : '';
+      const catBadge = catInfo ? `<span class="category-badge ${catClass}">${catInfo.emoji} ${getCategoryLabel(task.category)}</span>` : '';
       return `<li class="task-item ${deadlineClass}" data-id="${task.id}"><input type="checkbox" class="task-check" ${task.completed ? 'checked' : ''} data-id="${task.id}"><div class="task-content"><span class="task-text ${task.completed ? 'completed' : ''}">${escapeHtml(task.text)}</span><div class="task-meta">${catBadge}${deadlineHtml}</div></div><div class="task-actions"><button class="edit-btn" data-id="${task.id}">✏️</button><button class="delete-btn" data-id="${task.id}">🗑️</button></div></li>`;
     }).join('');
   }
