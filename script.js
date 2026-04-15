@@ -110,11 +110,57 @@ const translations = {
 
 function t(key, ...args) { let text = translations[currentLang][key]; return typeof text === 'function' ? text(...args) : text; }
 
+// ==================== CACHE & OPTIMIZATION ====================
+const deadlineStatusCache = new Map();
+const categoryLabelCache = new Map();
+let debounceTimer = null;
+let cachedTodayMidnight = null;
+let cachedTodayMidnightTime = 0;
+
+function getTodayMidnight() {
+  const now = Date.now();
+  if (cachedTodayMidnight !== null && now - cachedTodayMidnightTime < 86400000) {
+    return cachedTodayMidnight;
+  }
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  cachedTodayMidnight = d.getTime();
+  cachedTodayMidnightTime = now;
+  return cachedTodayMidnight;
+}
+
+function getDeadlineStatus(deadlineTs) {
+  if (!deadlineTs) return null;
+  if (deadlineStatusCache.has(deadlineTs)) {
+    return deadlineStatusCache.get(deadlineTs);
+  }
+  const today = getTodayMidnight();
+  const deadline = new Date(deadlineTs);
+  deadline.setHours(0, 0, 0, 0);
+  const deadlineTime = deadline.getTime();
+  let status;
+  if (deadlineTime < today) status = 'overdue';
+  else if (deadlineTime === today) status = 'today';
+  else status = 'future';
+  deadlineStatusCache.set(deadlineTs, status);
+  return status;
+}
+
 function getCategoryLabel(categoryKey) {
+  if (categoryLabelCache.has(categoryKey)) {
+    return categoryLabelCache.get(categoryKey);
+  }
   const c = categories[categoryKey];
   if (!c) return '';
   const categoryLabelKeys = { shopping: 'shoppingCat', cleaning: 'cleaningCat', study: 'studyCat', work: 'workCat', health: 'healthCat', other: 'otherCat' };
-  return categoryLabelKeys[categoryKey] ? t(categoryLabelKeys[categoryKey]) : c.label;
+  const label = categoryLabelKeys[categoryKey] ? t(categoryLabelKeys[categoryKey]) : c.label;
+  categoryLabelCache.set(categoryKey, label);
+  return label;
+}
+
+function clearCaches() {
+  deadlineStatusCache.clear();
+  categoryLabelCache.clear();
 }
 
 // ==================== DOM ELEMENTS ====================
@@ -170,19 +216,34 @@ function loadCategories() {
 function saveCategories() { const custom = {}; Object.keys(categories).forEach(k => { if(!categories[k].isDefault) custom[k] = categories[k]; }); localStorage.setItem('homeCategories', JSON.stringify(custom)); }
 function generateCategoryKey() { return 'custom_'+Date.now().toString(36); }
 function renderCategorySelectors() {
-  categoryInput.innerHTML = `<option value="">${t('categorySelectPlaceholder')}</option>`;
-  Object.keys(categories).forEach(key => { const c = categories[key]; categoryInput.innerHTML += `<option value="${key}">${c.emoji} ${getCategoryLabel(key)}</option>`; });
-  categoryFiltersEl.innerHTML = `<button class="filter-btn active" data-category="all">🏷️ ${t('navAll')}</button>`;
-  Object.keys(categories).forEach(key => { const c = categories[key]; const isActive = currentCategory === key ? 'active' : ''; categoryFiltersEl.innerHTML += `<button class="filter-btn ${isActive}" data-category="${key}">${c.emoji} ${getCategoryLabel(key)}</button>`; });
+  const options = [`<option value="">${t('categorySelectPlaceholder')}</option>`];
+  const filterButtons = [`<button class="filter-btn active" data-category="all">🏷️ ${t('navAll')}</button>`];
+  
+  Object.keys(categories).forEach(key => {
+    const c = categories[key];
+    const label = getCategoryLabel(key);
+    options.push(`<option value="${key}">${c.emoji} ${label}</option>`);
+    const isActive = currentCategory === key ? 'active' : '';
+    filterButtons.push(`<button class="filter-btn ${isActive}" data-category="${key}">${c.emoji} ${label}</button>`);
+  });
+  
+  categoryInput.innerHTML = options.join('');
+  categoryFiltersEl.innerHTML = filterButtons.join('');
   document.querySelectorAll('#categoryFilters .filter-btn').forEach(btn => btn.addEventListener('click', () => setCategory(btn.dataset.category)));
 }
+
 function renderCategoryList() {
-  categoryListEl.innerHTML = '';
+  const fragment = document.createDocumentFragment();
   Object.keys(categories).forEach(key => {
     const c = categories[key];
     const taskCount = tasks.filter(t => t.category === key && !t.completed).length;
-    categoryListEl.innerHTML += `<div class="category-item"><div class="category-item-info"><span class="category-item-emoji">${c.emoji}</span><span class="category-item-name">${getCategoryLabel(key)}</span>${c.isDefault ? '<span class="default-badge">'+(currentLang==='ru'?'Базовая':'Default')+'</span>' : ''}<span class="category-item-count">(${taskCount} ${currentLang==='ru'?'активн.':'active'})</span></div><div class="category-item-actions"><button class="category-btn delete delete-category-btn" data-key="${key}">🗑️</button></div></div>`;
+    const div = document.createElement('div');
+    div.className = 'category-item';
+    div.innerHTML = `<div class="category-item-info"><span class="category-item-emoji">${c.emoji}</span><span class="category-item-name">${getCategoryLabel(key)}</span>${c.isDefault ? '<span class="default-badge">'+(currentLang==='ru'?'Базовая':'Default')+'</span>' : ''}<span class="category-item-count">(${taskCount} ${currentLang==='ru'?'активн.':'active'})</span></div><div class="category-item-actions"><button class="category-btn delete delete-category-btn" data-key="${key}">🗑️</button></div>`;
+    fragment.appendChild(div);
   });
+  categoryListEl.innerHTML = '';
+  categoryListEl.appendChild(fragment);
 }
 function deleteCategory(key) {
   const cat = categories[key];
