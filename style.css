@@ -8,8 +8,6 @@
   --text-primary: #1a1a1a;
   --text-secondary: #424242;
   --text-muted: #8a8a8a;
-  --text-sidebar: #6b7280;
-  --text-sidebar-active: #0078d4;
   --accent-color: #0078d4;
   --accent-hover: #106ebe;
   --border-color: rgba(0, 120, 212, 0.15);
@@ -31,8 +29,6 @@
   --text-primary: #ffffff;
   --text-secondary: #d0d0d0;
   --text-muted: #9a9a9a;
-  --text-sidebar: #9ca3af;
-  --text-sidebar-active: #4c6ef5;
   --accent-color: #4c6ef5;
   --accent-hover: #3b5bdb;
   --border-color: rgba(76, 110, 245, 0.2);
@@ -175,51 +171,6 @@ body {
   background: var(--accent-color);
   color: white;
   box-shadow: 0 2px 8px rgba(0, 120, 212, 0.3);
-}
-
-/* ===== MINI CALENDAR WIDGET ===== */
-.mini-calendar-widget {
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  margin: 16px;
-}
-
-.mini-calendar-header {
-  text-align: center;
-  color: var(--text-sidebar-active);
-  font-weight: 600;
-  margin-bottom: 12px;
-  font-size: 0.9rem;
-}
-
-.mini-calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-  text-align: center;
-}
-
-.mini-calendar-day {
-  padding: 6px 4px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  color: var(--text-sidebar);
-  cursor: pointer;
-}
-
-.mini-calendar-day:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.mini-calendar-day.active {
-  background: var(--accent-color);
-  color: white;
-  font-weight: 600;
-}
-
-.mini-calendar-day.has-tasks {
-  border-bottom: 2px solid var(--accent-color);
 }
 
 .sidebar-footer {

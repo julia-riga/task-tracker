@@ -838,87 +838,6 @@ function nextMonth() {
   initCalendarSelects();
 }
 
-// ==================== MINI CALENDAR ====================
-function renderMiniCalendar() {
-  const container = document.getElementById("miniCalendar");
-  if (!container) return;
-
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const today = now.getDate();
-
-  // Update header
-  const monthNames =
-    currentLang === "ru"
-      ? [
-          "Январь",
-          "Февраль",
-          "Март",
-          "Апрель",
-          "Май",
-          "Июнь",
-          "Июль",
-          "Август",
-          "Сентябрь",
-          "Октябрь",
-          "Ноябрь",
-          "Декабрь",
-        ]
-      : [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December",
-        ];
-
-  const header = document.getElementById("currentMonth");
-  if (header) header.textContent = `${monthNames[month]} ${year}`;
-
-  // Get days info
-  const firstDay = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-  // Day names (Mo-Su)
-  const dayNames =
-    currentLang === "ru"
-      ? ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
-      : ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-
-  let html = "";
-  dayNames.forEach((day) => {
-    html += `<div style="font-weight: 600; font-size: 0.7rem; padding: 4px 0; color: var(--text-muted);">${day}</div>`;
-  });
-
-  // Empty cells
-  const startOffset = firstDay === 0 ? 6 : firstDay - 1;
-  for (let i = 0; i < startOffset; i++) {
-    html += "<div></div>";
-  }
-
-  // Days
-  for (let d = 1; d <= daysInMonth; d++) {
-    const isToday = d === today;
-    const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-    const hasTasks = tasks.some((t) => {
-      const taskDate = new Date(t.deadline);
-      return taskDate.toISOString().split("T")[0] === dateStr && !t.completed;
-    });
-
-    html += `<div class="mini-calendar-day ${isToday ? "active" : ""} ${hasTasks ? "has-tasks" : ""}">${d}</div>`;
-  }
-
-  container.innerHTML = html;
-}
-
 // ==================== FILTER & SORT ====================
 function getFilteredAndSortedTasks() {
   let res = [...tasks];
@@ -1024,7 +943,6 @@ function render() {
   saveTasksToStorage();
   renderProgressChart();
   renderCalendar();
-  renderMiniCalendar();
 }
 
 // ==================== CRUD TASKS ====================
