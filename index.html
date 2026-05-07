@@ -28,6 +28,15 @@
                 <span id="navCompleted">Completed</span>
             </div>
         </nav>
+        
+        <!-- MINI CALENDAR WIDGET -->
+        <div class="mini-calendar-widget">
+            <div class="mini-calendar-header">
+                <span id="currentMonth">Май 2026</span>
+            </div>
+            <div class="mini-calendar-grid" id="miniCalendar"></div>
+        </div>
+        
         <div class="sidebar-footer">
             <button class="data-btn theme" id="themeBtn">🌙 <span id="themeStatus">Light</span></button>
             <button class="data-btn notifications" id="notifBtn">🔔 <span id="notifStatus">Off</span></button>
@@ -54,8 +63,55 @@
             </div>
         </header>
 
-        <!-- WIDGETS -->
-        <div class="widgets-grid">
+        <!-- TAB NAVIGATION -->
+        <div class="tabs-nav">
+            <button class="tab-btn active" data-tab="tasks">📋 Задачи</button>
+            <button class="tab-btn" data-tab="stats">📊 Статистика</button>
+        </div>
+
+        <!-- TAB: TASKS -->
+        <div class="tab-content active" id="tab-tasks">
+            <!-- FILTERS AND SORT -->
+            <div class="filter-sort-bar">
+                <div class="category-filters" id="categoryFilters"></div>
+                <div class="sort-controls">
+                    <span id="sortLabel" class="sort-label">Sort by:</span>
+                    <select id="sortSelect" class="sort-select">
+                        <option value="status-date" id="sortStatusDate">Status & Date</option>
+                        <option value="deadline" id="sortDeadline">Deadline</option>
+                        <option value="category" id="sortCategory">Category</option>
+                        <option value="created" id="sortCreated">Created Date</option>
+                        <option value="alpha" id="sortAlpha">Alphabetical</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ADD TASK FORM -->
+            <div class="add-task-container">
+                <div class="add-task">
+                    <input type="text" id="taskInput" placeholder="✏️ What needs to be done?">
+                    <div class="deadline-wrapper">
+                        <input type="date" id="deadlineInput" placeholder="Deadline">
+                    </div>
+                    <select id="categoryInput"><option value="">🏷️ Category</option></select>
+                    <button id="addBtn" class="add-btn">
+                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <span id="addBtnText">Add Task</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TASK LIST -->
+            <ul class="task-list" id="taskList"></ul>
+
+            <!-- STATS PANEL -->
+            <div class="stats-panel" id="statsPanel"></div>
+        </div>
+
+        <!-- TAB: STATS -->
+        <div class="tab-content" id="tab-stats">
+            <!-- WIDGETS -->
+            <div class="widgets-grid">
             <div class="widget chart-widget">
                 <div class="widget-header"><h3 id="weeklyProgressTitle">📈 Weekly Progress</h3></div>
                 <div class="chart-bars" id="chartBars"></div>
@@ -92,42 +148,6 @@
                 <div id="calendarContainer"></div>
             </div>
         </div>
-
-        <!-- ADD TASK FORM -->
-        <div class="add-task-container">
-            <div class="add-task">
-                <input type="text" id="taskInput" placeholder="✏️ What needs to be done?">
-                <div class="deadline-wrapper">
-                    <input type="date" id="deadlineInput" placeholder="Deadline">
-                </div>
-                <select id="categoryInput"><option value="">🏷️ Category</option></select>
-                <button id="addBtn" class="add-btn">
-                    <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    <span id="addBtnText">Add Task</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- FILTERS AND SORT -->
-        <div class="filter-sort-bar">
-            <div class="category-filters" id="categoryFilters"></div>
-            <div class="sort-controls">
-                <span id="sortLabel" class="sort-label">Sort by:</span>
-                <select id="sortSelect" class="sort-select">
-                    <option value="status-date" id="sortStatusDate">Status & Date</option>
-                    <option value="deadline" id="sortDeadline">Deadline</option>
-                    <option value="category" id="sortCategory">Category</option>
-                    <option value="created" id="sortCreated">Created Date</option>
-                    <option value="alpha" id="sortAlpha">Alphabetical</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- TASK LIST -->
-        <ul class="task-list" id="taskList"></ul>
-
-        <!-- STATS PANEL -->
-        <div class="stats-panel" id="statsPanel"></div>
     </main>
 </div>
 
