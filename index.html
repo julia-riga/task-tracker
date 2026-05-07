@@ -82,7 +82,9 @@
                 <div class="add-task">
                     <input type="text" id="taskInput" placeholder="✏️ What needs to be done?">
                     <div class="deadline-wrapper">
-                        <input type="date" id="deadlineInput" placeholder="Deadline">
+                        <span class="deadline-icon">📅</span>
+                        <input type="date" id="deadlineDateInput" title="Дата дедлайна">
+                        <input type="time" id="deadlineTimeInput" title="Время дедлайна">
                     </div>
                     <select id="categoryInput"><option value="">🏷️ Category</option></select>
                     <button id="addBtn" class="add-btn">

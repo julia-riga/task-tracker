@@ -240,7 +240,8 @@ function getCategoryLabel(categoryKey) {
 // ==================== DOM ELEMENTS ====================
 const $ = (id) => document.getElementById(id);
 const taskInput = $("taskInput");
-const deadlineInput = $("deadlineInput");
+const deadlineDateInput = $("deadlineDateInput");
+const deadlineTimeInput = $("deadlineTimeInput");
 const categoryInput = $("categoryInput");
 const categoryFiltersEl = $("categoryFilters");
 const addBtn = $("addBtn");
@@ -280,13 +281,32 @@ function formatDate(ts) {
     year: "2-digit",
   });
 }
+
+function formatDeadline(timestamp) {
+  if (!timestamp) return "";
+  const d = new Date(timestamp);
+  const datePart = d.toLocaleDateString("ru-RU", {
+    day: "2-digit",
+    month: "2-digit",
+  });
+  const timePart = d.toLocaleTimeString("ru-RU", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return `${datePart} ${timePart}`;
+}
 function getDeadlineStatus(deadlineTs) {
   if (!deadlineTs) return null;
-  const today = getTodayMidnight();
-  const deadline = new Date(deadlineTs);
-  deadline.setHours(0, 0, 0, 0);
-  if (deadline.getTime() < today) return "overdue";
-  if (deadline.getTime() === today) return "today";
+  const now = Date.now();
+  if (deadlineTs < now) return "overdue";
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+
+  if (deadlineTs >= today.getTime() && deadlineTs < tomorrow.getTime())
+    return "today";
   return "future";
 }
 function getDaysOverdue(deadlineTs) {
@@ -751,7 +771,7 @@ function renderCalendar() {
   container.querySelectorAll(".calendar-day[data-date]").forEach((day) => {
     day.style.cursor = "pointer";
     day.addEventListener("click", function () {
-      deadlineInput.value = this.dataset.date;
+      deadlineDateInput.value = this.dataset.date;
       render();
     });
   });
@@ -913,7 +933,7 @@ function render() {
               : deadlineStatus === "today"
                 ? "🟡"
                 : "🟢";
-          const dateStr = formatDate(task.deadline);
+          const dateStr = formatDeadline(task.deadline);
           if (deadlineStatus === "overdue")
             deadlineHtml = `<span style="display:inline-block;animation:shake 0.5s infinite;">⚠️</span> ${emoji} ${t("overdue")} (${getDaysOverdue(task.deadline)} ${t("days")})`;
           else if (deadlineStatus === "today")
@@ -952,9 +972,16 @@ function addTask() {
     showNotification(t("emptyTaskWarning"), "warning");
     return;
   }
-  const deadline = deadlineInput.value
-    ? new Date(deadlineInput.value).getTime()
-    : null;
+  const dateVal = deadlineDateInput.value;
+  const timeVal = deadlineTimeInput.value;
+  let deadline = null;
+
+  if (dateVal) {
+    const [y, m, d] = dateVal.split("-");
+    const [h = 0, min = 0] = timeVal ? timeVal.split(":") : ["00", "00"];
+    deadline = new Date(y, m - 1, d, h, min).getTime();
+  }
+
   const category = categoryInput.value || null;
   tasks.push({
     id: Date.now(),
@@ -965,7 +992,8 @@ function addTask() {
     category,
   });
   taskInput.value = "";
-  deadlineInput.value = "";
+  deadlineDateInput.value = "";
+  deadlineTimeInput.value = "";
   categoryInput.value = "";
   render();
   showNotification(t("taskAdded"), "success");
@@ -1121,7 +1149,7 @@ function initEventListeners() {
     currentSort = e.target.value;
     render();
   });
-  deadlineInput.min = new Date().toISOString().split("T")[0];
+  deadlineDateInput.min = new Date().toISOString().split("T")[0];
   categoryModal.addEventListener("click", (e) => {
     if (e.target === categoryModal) categoryModal.classList.remove("show");
   });

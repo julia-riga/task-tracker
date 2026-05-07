@@ -611,16 +611,17 @@ body {
   box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
 }
 
+/* ===== DEADLINE DATE + TIME ===== */
 .deadline-wrapper {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
+  gap: 0;
+  padding: 0 4px;
   border: 1px solid var(--border-color);
   border-radius: 24px;
   background: var(--card-bg);
   flex: 1;
-  min-width: 160px;
+  min-width: 200px;
   transition: all 0.2s;
 }
 
@@ -632,16 +633,33 @@ body {
 .deadline-icon {
   font-size: 1.2rem;
   flex-shrink: 0;
+  padding: 0 8px;
 }
 
-.deadline-wrapper input[type="date"] {
+.deadline-wrapper input[type="date"],
+.deadline-wrapper input[type="time"] {
   flex: 1;
   border: none;
   background: transparent;
-  padding: 0;
+  padding: 12px 8px;
   font-size: 0.95rem;
   color: var(--text-primary);
   cursor: pointer;
+  outline: none;
+}
+
+.deadline-wrapper input[type="date"] {
+  border-right: 1px solid var(--border-color);
+  min-width: 110px;
+}
+
+.deadline-wrapper input[type="time"] {
+  min-width: 80px;
+}
+
+/* Убираем двойную обводку при фокусе */
+.deadline-wrapper input:focus {
+  box-shadow: none;
 }
 
 .add-btn {
