@@ -212,25 +212,16 @@ const translations = {
   },
 };
 
-function t(key, ...args) {
-  let text = translations[currentLang][key];
-  return typeof text === "function" ? text(...args) : text;
-}
+function t(key, ...args) { let text = translations[currentLang][key]; return typeof text === 'function' ? text(...args) : text; }
 
 function getCategoryLabel(categoryKey) {
+  if (categoryLabelCache.has(categoryKey)) {
+    return categoryLabelCache.get(categoryKey);
+  }
   const c = categories[categoryKey];
-  if (!c) return "";
-  const categoryLabelKeys = {
-    shopping: "shoppingCat",
-    cleaning: "cleaningCat",
-    study: "studyCat",
-    work: "workCat",
-    health: "healthCat",
-    other: "otherCat",
-  };
-  return categoryLabelKeys[categoryKey]
-    ? t(categoryLabelKeys[categoryKey])
-    : c.label;
+  if (!c) return '';
+  const categoryLabelKeys = { shopping: 'shoppingCat', cleaning: 'cleaningCat', study: 'studyCat', work: 'workCat', health: 'healthCat', other: 'otherCat' };
+  return categoryLabelKeys[categoryKey] ? t(categoryLabelKeys[categoryKey]) : c.label;
 }
 
 // ==================== DOM ELEMENTS ====================
@@ -327,32 +318,22 @@ function generateCategoryKey() {
   return "custom_" + Date.now().toString(36);
 }
 function renderCategorySelectors() {
-  categoryInput.innerHTML = `<option value="">${t("categorySelectPlaceholder")}</option>`;
-  Object.keys(categories).forEach((key) => {
-    const c = categories[key];
-    categoryInput.innerHTML += `<option value="${key}">${c.emoji} ${getCategoryLabel(key)}</option>`;
-  });
-  categoryFiltersEl.innerHTML = `<button class="filter-btn active" data-category="all">🏷️ ${t("navAll")}</button>`;
-  Object.keys(categories).forEach((key) => {
-    const c = categories[key];
-    const isActive = currentCategory === key ? "active" : "";
-    categoryFiltersEl.innerHTML += `<button class="filter-btn ${isActive}" data-category="${key}">${c.emoji} ${getCategoryLabel(key)}</button>`;
-  });
-  document
-    .querySelectorAll("#categoryFilters .filter-btn")
-    .forEach((btn) =>
-      btn.addEventListener("click", () => setCategory(btn.dataset.category)),
-    );
+  categoryInput.innerHTML = `<option value="">${t('categorySelectPlaceholder')}</option>`;
+  Object.keys(categories).forEach(key => { const c = categories[key]; categoryInput.innerHTML += `<option value="${key}">${c.emoji} ${getCategoryLabel(key)}</option>`; });
+  categoryFiltersEl.innerHTML = `<button class="filter-btn active" data-category="all">🏷️ ${t('navAll')}</button>`;
+  Object.keys(categories).forEach(key => { const c = categories[key]; const isActive = currentCategory === key ? 'active' : ''; categoryFiltersEl.innerHTML += `<button class="filter-btn ${isActive}" data-category="${key}">${c.emoji} ${getCategoryLabel(key)}</button>`; });
+  document.querySelectorAll('#categoryFilters .filter-btn').forEach(btn => btn.addEventListener('click', () => setCategory(btn.dataset.category)));
 }
+
 function renderCategoryList() {
-  categoryListEl.innerHTML = "";
-  Object.keys(categories).forEach((key) => {
+  categoryListEl.innerHTML = '';
+  Object.keys(categories).forEach(key => {
     const c = categories[key];
-    const taskCount = tasks.filter(
-      (t) => t.category === key && !t.completed,
-    ).length;
-    categoryListEl.innerHTML += `<div class="category-item"><div class="category-item-info"><span class="category-item-emoji">${c.emoji}</span><span class="category-item-name">${getCategoryLabel(key)}</span>${c.isDefault ? '<span class="default-badge">' + (currentLang === "ru" ? "Базовая" : "Default") + "</span>" : ""}<span class="category-item-count">(${taskCount} ${currentLang === "ru" ? "активн." : "active"})</span></div><div class="category-item-actions"><button class="category-btn delete delete-category-btn" data-key="${key}">🗑️</button></div></div>`;
+    const taskCount = tasks.filter(t => t.category === key && !t.completed).length;
+    categoryListEl.innerHTML += `<div class="category-item"><div class="category-item-info"><span class="category-item-emoji">${c.emoji}</span><span class="category-item-name">${getCategoryLabel(key)}</span>${c.isDefault ? '<span class="default-badge">'+(currentLang==='ru'?'Базовая':'Default')+'</span>' : ''}<span class="category-item-count">(${taskCount} ${currentLang==='ru'?'активн.':'active'})</span></div><div class="category-item-actions"><button class="category-btn delete delete-category-btn" data-key="${key}">🗑️</button></div></div>`;
   });
+  categoryListEl.innerHTML = '';
+  categoryListEl.appendChild(fragment);
 }
 function deleteCategory(key) {
   const cat = categories[key];
