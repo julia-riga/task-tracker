@@ -1,0 +1,25 @@
+{
+  "name": "to-do-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julia-riga/task-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/julia-riga/task-tracker/issues"
+  },
+  "homepage": "https://github.com/julia-riga/task-tracker#readme",
+  "devDependencies": {
+    "stylelint": "^17.11.0",
+    "stylelint-config-standard": "^40.0.0"
+  }
+}

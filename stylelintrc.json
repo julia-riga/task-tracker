@@ -1,0 +1,12 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "property-no-unknown": true,
+    "value-no-invalid": true,
+    "selector-no-duplicate": true,
+    "declaration-block-no-duplicate-properties": true,
+    "no-duplicate-selectors": true,
+    "string-no-newline": true,
+    "font-family-no-missing-generic-family-keyword": true
+  }
+}
