@@ -331,24 +331,19 @@ function showNotification(message, type = "info") {
 }
 
 // ==================== CATEGORIES ====================
-function loadCategories() {
-  const stored = localStorage.getItem("homeCategories");
-  categories = { ...DEFAULT_CATEGORIES };
-  if (stored) {
-    try {
-      const custom = JSON.parse(stored);
-      Object.keys(custom).forEach((k) => (categories[k] = custom[k]));
-    } catch (e) {}
-  }
-  renderCategorySelectors();
-}
-function saveCategories() {
-  const custom = {};
-  Object.keys(categories).forEach((k) => {
-    if (!categories[k].isDefault) custom[k] = categories[k];
-  });
-  localStorage.setItem("homeCategories", JSON.stringify(custom));
-}
+// Импорты из storage.js
+import { 
+  loadTasks, 
+  saveTasks, 
+  getInitialCategories, 
+  saveCategories, 
+  getTheme, 
+  saveTheme,
+  getLanguage, 
+  saveLanguage, 
+  getNotificationsEnabled,
+  saveNotificationsEnabled 
+} from './storage.js';
 function generateCategoryKey() {
   return "custom_" + Date.now().toString(36);
 }
