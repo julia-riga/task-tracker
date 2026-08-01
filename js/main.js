@@ -1,3 +1,5 @@
+   import { loadTasks, saveTasks, getInitialCategories, saveCategories, getTheme, getLanguage, getNotificationsEnabled } from './storage.js';
+
 // ==================== STATE & CONFIG ====================
 let tasks = [];
 let categories = {};
