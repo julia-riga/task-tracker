@@ -372,14 +372,14 @@ function deleteCategory(key) {
     tasks.forEach((t) => {
       if (t.category === key) t.category = "other";
     });
-    saveTasks();
+    saveTasks(tasks);
   }
   if (currentCategory === key) {
     currentCategory = "all";
     updateCategoryFilterButtons();
   }
   delete categories[key];
-  saveCategories();
+  saveCategories(categories);
   renderCategorySelectors();
   renderCategoryList();
   render();
@@ -402,7 +402,7 @@ function addNewCategory() {
     color: colorInput.value,
     isDefault: false,
   };
-  saveCategories();
+  saveCategories(categories);
   renderCategorySelectors();
   renderCategoryList();
   render();
@@ -422,8 +422,8 @@ function resetCategories() {
     if (customKeys.includes(t.category)) t.category = "other";
   });
   categories = { ...DEFAULT_CATEGORIES };
-  saveCategories();
-  saveTasks();
+  saveCategories(categories);
+  saveTasks(tasks);
   if (currentCategory !== "all" && !categories[currentCategory]) currentCategory = "all";
   renderCategorySelectors();
   renderCategoryList();
@@ -571,10 +571,10 @@ function importTasks(event) {
       tasks = data.tasks.map((t) => ({ ...t, id: t.id ?? Date.now() + Math.random() }));
       if (data.categories) {
         categories = { ...DEFAULT_CATEGORIES, ...data.categories };
-        saveCategories();
+        saveCategories(categories);
         renderCategorySelectors();
       }
-      saveTasks();
+      saveTasks(tasks);
       render();
       showNotification(`${t("importSuccess")} ${data.tasks.length}`, "success");
     } catch (err) {
@@ -767,7 +767,7 @@ function render() {
     if (cnt > 0) catStats += `<span class="stat-cat">${categories[k].emoji} ${cnt}</span>`;
   });
   statsPanel.innerHTML = `<div>${t("statsPanel", total, completed, active, overdue)}</div>${catStats ? `<div style="display:flex;gap:8px;flex-wrap:wrap;">${catStats}</div>` : ""}`;
-  saveTasks();
+  saveTasks(tasks);
   renderProgressChart();
   renderCalendar();
 }

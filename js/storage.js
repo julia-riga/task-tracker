@@ -11,11 +11,16 @@ const DEFAULT_CATEGORIES = {
 
 export function getInitialCategories() {
   const stored = localStorage.getItem("homeCategories");
-  const custom = stored ? JSON.parse(stored) : {};
-  return { ...DEFAULT_CATEGORIES, ...custom };
+  if (!stored || stored === "undefined") return { ...DEFAULT_CATEGORIES };
+  try {
+    const custom = JSON.parse(stored);
+    return { ...DEFAULT_CATEGORIES, ...custom };
+  } catch (e) {
+    return { ...DEFAULT_CATEGORIES };
+  }
 }
 
-export function saveCategories(categories) {
+export function saveCategories() {
   const custom = {};
   Object.keys(categories).forEach((k) => {
     if (!categories[k].isDefault) custom[k] = categories[k];
@@ -25,10 +30,15 @@ export function saveCategories(categories) {
 
 export function loadTasks() {
   const stored = localStorage.getItem("homeTasks");
-  return stored ? JSON.parse(stored) : [];
+  if (!stored || stored === "undefined") return [];
+  try {
+    return JSON.parse(stored);
+  } catch (e) {
+    return [];
+  }
 }
 
-export function saveTasks(tasks) {
+export function saveTasks() {
   localStorage.setItem("homeTasks", JSON.stringify(tasks));
 }
 
