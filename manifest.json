@@ -1,21 +1,23 @@
 {
-  "name": "Home Tasks - Менеджер задач",
+  "name": "Home Tasks - Менеджер домашних задач",
   "short_name": "Home Tasks",
   "description": "Организуйте домашние дела по категориям, ставьте дедлайны и отслеживайте прогресс",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f3f6fa",
-  "theme_color": "#0078d4",
+  "background_color": "#667eea",
+  "theme_color": "#667eea",
   "icons": [
     {
       "src": "logo.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "logo.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
