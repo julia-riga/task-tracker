@@ -1,18 +1,18 @@
-/* ==================== FLUENT DESIGN VARIABLES ==================== */
+/* ==================== FLUENT DESIGN VARIABLES (LAVENDER EDITION) ==================== */
 :root {
-  --bg-gradient: linear-gradient(135deg, #f3f6fa 0%, #e8edf5 100%);
+  --bg-gradient: linear-gradient(135deg, #f5f3ff 0%, #e0e7ff 100%); /* Мягкий лавандовый фон */
   --window-bg: rgba(255, 255, 255, 0.85);
   --sidebar-bg: rgba(255, 255, 255, 0.6);
   --bg-secondary: rgba(248, 250, 252, 0.5);
   --card-bg: rgba(255, 255, 255, 0.9);
-  --text-primary: #1a1a1a;
-  --text-secondary: #424242;
-  --text-muted: #8a8a8a;
-  --accent-color: #0078d4;
-  --accent-hover: #106ebe;
-  --border-color: rgba(0, 120, 212, 0.15);
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
+  --text-primary: #1e1b4b; /* Глубокий индиго для текста */
+  --text-secondary: #4338ca;
+  --text-muted: #6b7280;
+  --accent-color: #818cf8; /* Мягкий васильковый/лавандовый */
+  --accent-hover: #6366f1;
+  --border-color: rgba(129, 140, 248, 0.2); /* Границы в тон акценту */
+  --shadow: 0 8px 32px rgba(129, 140, 248, 0.08);
+  --shadow-lg: 0 20px 60px rgba(129, 140, 248, 0.12);
   --success-color: #107c10;
   --warning-color: #ffb900;
   --error-color: #d13438;
@@ -21,17 +21,17 @@
 }
 
 [data-theme="dark"] {
-  --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  --window-bg: rgba(32, 32, 32, 0.85);
-  --sidebar-bg: rgba(32, 32, 32, 0.6);
-  --bg-secondary: rgba(45, 45, 45, 0.5);
-  --card-bg: rgba(45, 45, 45, 0.9);
-  --text-primary: #ffffff;
-  --text-secondary: #d0d0d0;
-  --text-muted: #9a9a9a;
-  --accent-color: #4c6ef5;
-  --accent-hover: #3b5bdb;
-  --border-color: rgba(76, 110, 245, 0.2);
+  --bg-gradient: linear-gradient(135deg, #0f0e1a 0%, #1e1b2e 100%); /* Глубокий темный индиго */
+  --window-bg: rgba(30, 27, 46, 0.85);
+  --sidebar-bg: rgba(30, 27, 46, 0.6);
+  --bg-secondary: rgba(45, 42, 62, 0.5);
+  --card-bg: rgba(45, 42, 62, 0.9);
+  --text-primary: #e0e7ff;
+  --text-secondary: #c7d2fe;
+  --text-muted: #9ca3af;
+  --accent-color: #a5b4fc; /* Светлый лавандовый для темной темы */
+  --accent-hover: #818cf8;
+  --border-color: rgba(165, 180, 252, 0.2);
   --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
 }

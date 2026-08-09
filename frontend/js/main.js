@@ -689,6 +689,11 @@ function nextMonth() {
 
 // ==================== FILTER & SORT ====================
 function getFilteredAndSortedTasks() {
+  // Защита: если tasks не массив, возвращаем пустой массив
+  if (!Array.isArray(tasks)) {
+    console.error('tasks is not an array!', tasks);
+    return [];
+  }
   let res = [...tasks];
   if (currentSearch) res = res.filter((t) => t.text.toLowerCase().includes(currentSearch));
   if (currentFilter === "active") res = res.filter((t) => !t.completed);
@@ -960,10 +965,10 @@ function initEventListeners() {
 }
 
 // ==================== INIT ====================
-function init() {
+async function init() {
   applyTheme(currentTheme);
-  categories = getInitialCategories();
-  tasks = loadTasks();
+  categories = await getInitialCategories();
+  tasks = await loadTasks();  
   updateNotificationButton();
   initEventListeners();
   applyLanguage();
