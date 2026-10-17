@@ -2,11 +2,9 @@
 
 Современное приложение для управления домашними задачами с удобным интерфейсом и полной локальной поддержкой данных.
 
+![Logo](logo.png)
+
 ![Главный экран приложения](screenshots/main-screen.png)
-
-## ✨ Возможности
-
-## ✨ Features
 
 - **📋 Task Management**: Create, edit, delete, and organize tasks
 - **🏷️ Category Filtering**: Filter tasks by All, Active, or Completed status
@@ -20,14 +18,6 @@
 - **🗄️ Full Stack Mode**: MySQL database with Express backend for multi-user persistence
 
 ![Фильтрация по категориям](screenshots/task-filter.png)
-
-## ✨ Возможности
-
-The application supports two languages:
-- **English**: `en`
-- **Russian**: `ru` (default language)
-
-Switch with the language button in the header. All UI elements, including task text and messages, are localized.
 
 ## 📁 Project Structure
 
