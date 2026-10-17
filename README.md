@@ -19,7 +19,25 @@
 - **💾 Local Storage**: Browser-only mode persists data locally in the browser (PWA)
 - **🗄️ Full Stack Mode**: MySQL database with Express backend for multi-user persistence
 
-![Фильтрация по категориям](screenshots/task-filter.png)
+
+## 📸 Screenshots
+
+### Главный экран
+
+- ![Главный экран (светлая тема)](screenshots/main-screen-light.png)
+- ![Главный экран (тёмная тема)](screenshots/main-screen-dark.png)
+
+### Фильтрация по категориям
+
+- ![Фильтрация](screenshots/task-filter.png)
+
+### Статистика
+
+- ![Статистика](screenshots/stats-screen.png)
+
+### Категории
+
+- ![Категории](screenshots/category-screen.png)
 
 ## 📁 Project Structure
 
