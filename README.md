@@ -6,6 +6,8 @@
 
 ![Главный экран приложения (светлая тема)](screenshots/main-screen-light.png)
 
+![Главный экран приложения (тёмная тема)](screenshots/main-screen-dark.png)
+
 - **📋 Task Management**: Create, edit, delete, and organize tasks
 - **🏷️ Category Filtering**: Filter tasks by All, Active, or Completed status
 - **🔍 Search Functionality**: Quickly find tasks with the built-in search
