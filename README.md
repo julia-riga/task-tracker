@@ -13,10 +13,6 @@
 - ![Главный экран (светлая тема)](screenshots/main-screen-light.png)
 - ![Главный экран (тёмная тема)](screenshots/main-screen-dark.png)
 
-### Фильтрация по категориям
-
-- ![Фильтрация](screenshots/task-filter.png)
-
 ### Статистика
 
 - ![Статистика](screenshots/stats-screen.png)
@@ -163,7 +159,6 @@ This gives you a fully functional PWA application that stores data locally. No s
 
 ## 📖 API Documentation
 
-![API health check ответ](screenshots/api-health.png)
 
 ### Базовый URL
 
