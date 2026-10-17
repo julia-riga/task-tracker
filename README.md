@@ -4,11 +4,6 @@
 
 ![Logo](logo.png)
 
-![Главный экран приложения (светлая тема)](screenshots/main-screen-light.png)
-
-![Главный экран приложения (тёмная тема)](screenshots/main-screen-dark.png)
-
-
 
 
 ## 📸 Screenshots
