@@ -1,8 +1,10 @@
-# 🏠 Home Tasks — Task Tracker
+# 🏠 Home Tasks — Трекер задач
 
-A modern, feature-rich task management web application for organizing your home tasks by category, setting deadlines, and tracking progress.
+Современное приложение для управления домашними задачами с удобным интерфейсом и полной локальной поддержкой данных.
 
-![Home Tasks Logo](./frontend/logo.png)
+![Главный экран приложения](screenshots/main-screen.png)
+
+## ✨ Возможности
 
 ## ✨ Features
 
@@ -17,7 +19,9 @@ A modern, feature-rich task management web application for organizing your home 
 - **💾 Local Storage**: Browser-only mode persists data locally in the browser (PWA)
 - **🗄️ Full Stack Mode**: MySQL database with Express backend for multi-user persistence
 
-## 🌍 Multi-Language Support
+![Фильтрация по категориям](screenshots/task-filter.png)
+
+## ✨ Возможности
 
 The application supports two languages:
 - **English**: `en`
@@ -70,7 +74,9 @@ Switch with the language button in the header. All UI elements, including task t
 
 ---
 
-### Option 1: Quick Start — Frontend Only (PWA)
+![Добавление новой задачи](screenshots/add-task.png)
+
+### Вариант 1: Быстрый старт — Только фронтенд (PWA)
 
 ```bash
 # Clone the repository
@@ -152,7 +158,7 @@ This gives you a fully functional PWA application that stores data locally. No s
 
 ---
 
-## 🛠️ Development Workflow
+## 🛠️ Разработка
 
 1. **Backend Changes**: Edit files in `backend/src/`, run tests with `npm test`
 2. **Database Modifications**: Update `sql/init.sql`, restart MySQL service
@@ -163,7 +169,9 @@ This gives you a fully functional PWA application that stores data locally. No s
 
 ## 📖 API Documentation
 
-### Base URL
+![API health check ответ](screenshots/api-health.png)
+
+### Базовый URL
 
 ```
 http://localhost:3000/api
@@ -266,17 +274,16 @@ npm test
 
 ---
 
-## 📜 License
+## 📜 Лицензия
 
-This project is open source and available under the ISC License.
+Этот проект открыт и доступен по лицензии ISC.
 
 ---
 
-## 👨‍🤝‍👩 Author
+## 👨‍🤝‍👩 Авторы
 
 Home Tasks Team | [julia-riga/task-tracker](https://github.com/julia-riga/task-tracker)
 
----
+*Управляйте домашними задачами эффективно!*
 
-*Organize your home tasks efficiently!*
 ```
