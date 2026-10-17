@@ -4,7 +4,7 @@
 
 ![Logo](logo.png)
 
-![Главный экран приложения](screenshots/main-screen.png)
+![Главный экран приложения (светлая тема)](screenshots/main-screen-light.png)
 
 - **📋 Task Management**: Create, edit, delete, and organize tasks
 - **🏷️ Category Filtering**: Filter tasks by All, Active, or Completed status
