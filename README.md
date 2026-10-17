@@ -8,16 +8,7 @@
 
 ![Главный экран приложения (тёмная тема)](screenshots/main-screen-dark.png)
 
-- **📋 Task Management**: Create, edit, delete, and organize tasks
-- **🏷️ Category Filtering**: Filter tasks by All, Active, or Completed status
-- **🔍 Search Functionality**: Quickly find tasks with the built-in search
-- **🌐 Multi-language Support**: Switch between English (EN) and Russian (RU)
-- **🌓 Dark/Light Theme**: Toggle between light and dark themes via UI
-- **📂 Categories**: Organize tasks with custom categories (Shopping, Cleaning, Study, Work, Health, Other)
-- **🔔 Notifications**: Optional task notifications
-- **📱 Responsive Design**: Works seamlessly on desktop and mobile devices
-- **💾 Local Storage**: Browser-only mode persists data locally in the browser (PWA)
-- **🗄️ Full Stack Mode**: MySQL database with Express backend for multi-user persistence
+
 
 
 ## 📸 Screenshots
@@ -83,8 +74,6 @@
 - **For Docker Setup**: Docker Desktop & Docker Compose
 
 ---
-
-![Добавление новой задачи](screenshots/add-task.png)
 
 ### Вариант 1: Быстрый старт — Только фронтенд (PWA)
 
@@ -275,12 +264,18 @@ nginx -c /path/to/nginx.conf
 
 ## 🧪 Testing
 
-Run unit tests for the backend utilities:
+### Backend API Tests (mocked database)
 
 ```bash
 cd backend/
+npm install --save-dev jest-mock-adapter supertest  # optional, for supertest integration
 npm test
 ```
+
+Tests cover:
+- `tests/utils.test.js` — utility functions (`formatDeadline`, `isValidTask`)
+- `tests/api.test.js` — API routes with mocked database (tasks CRUD + categories)
+- `tests/frontend.test.js` — frontend storage logic (mocked localStorage)
 
 ---
 
