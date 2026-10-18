@@ -11,7 +11,14 @@ const categoriesRoutes = require('./routes/categories');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:8080',
+    'https://task-tracker-production-f581.up.railway.app'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 // Routes
