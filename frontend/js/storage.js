@@ -1,5 +1,5 @@
 // js/storage.js
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE = 'https://task-tracker-production-f581.up.railway.app/api';
 
 const DEFAULT_CATEGORIES = {
   shopping: { emoji: "🛒", label: "Покупки", color: "#2e7d32", isDefault: true },

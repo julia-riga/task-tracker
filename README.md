@@ -163,7 +163,7 @@ This gives you a fully functional PWA application that stores data locally. No s
 ### Базовый URL
 
 ```
-http://localhost:3000/api
+https://task-tracker-production-f581.up.railway.app/api
 ```
 
 #### Health Check
