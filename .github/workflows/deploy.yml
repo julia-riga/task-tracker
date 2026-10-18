@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy Frontend
 
 on:
   push:
@@ -7,42 +7,30 @@ on:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
-  deploy-frontend:
+  deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
-      # Copy frontend files to repo root for flat gh-pages deployment
-      - name: Deploy static frontend to gh-pages branch (root level)
-        run: |
-          echo "📦 Copying frontend/* to repo root for GitHub Pages..."
-          cp -r frontend/index.html .
-          cp -r frontend/style.css .
-          cp -r frontend/manifest.json .
-          cp -r frontend/logo.png .
-          cp -r frontend/sw.js .
-          cp -r frontend/Dockerfile .
-          cp -r frontend/nginx.conf .
-          cp -r frontend/js/main.js .
-          cp -r frontend/js/storage.js .
-          echo "✅ Frontend deployed to gh-pages branch root!"
+
+      # Загружаем директорию frontend/ целиком в GitHub Pages
+      - name: Upload artifact from frontend/
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: './frontend/'
 
       - name: Set up GitHub Pages
-        uses: actions/configure-pages@v4
-        
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: "."
+        uses: actions/configure-pages@v5
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
